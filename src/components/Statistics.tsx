@@ -6,21 +6,21 @@ const Statistics = ({ statistics }: { statistics: Statistics | null }) => {
         return <p>No statistics available, please try again.</p>;
 
     }
-    const { totalSpeakers, genderNumbers, ageNumbers } = statistics;
+    const { totalSpeakers, genderNumbers } = statistics;
     
     return (
         <div>
             <h2 className="text-3xl font-bold italic mb-4">Statistics</h2>
-            <p>Total Speakers: {totalSpeakers}</p>
+            <p><strong>Total Speakers:</strong> {totalSpeakers}</p>
             <div>
-                <p>Male Speakers: {genderNumbers.male}</p>
-                <p>Female Speakers: {genderNumbers.female}</p>
+                <p><strong>Male Speakers:</strong> {genderNumbers.male}</p>
+                <p><strong>Female Speakers:s</strong> {genderNumbers.female}</p>
             </div>
-        <h3>Age Numbers</h3>
+        <h3 className="italic font-bold">Ages of Speakers:</h3>
         <ul>
             {Object.entries(statistics.ageNumbers).map(([age, count]) => (
             <li key={age}>
-                Age {age}: {count}
+                Age {age}: {count} speakers
             </li>
             ))}
         </ul>
