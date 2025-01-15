@@ -32,7 +32,7 @@ const Search = (searchTerm: string, caseSensitive: boolean) => {
               matchFound = text.toLowerCase().includes(searchTerm.toLowerCase());
             }
             return matchFound;
-          }).map((conversation: any, index: number) => ({
+          }).map((conversation: any) => ({
             snippet: conversation.text, 
             // speakerId: `Speaker ${index + 1}`, 
           }));
