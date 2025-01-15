@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import type { Concordance, Speaker } from '@/types';
+import type { Concordance } from '@/types';
 
 interface ConcordanceProps {
     concordances: Concordance[];
