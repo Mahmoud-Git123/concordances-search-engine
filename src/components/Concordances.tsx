@@ -3,12 +3,11 @@ import type { Concordance, Speaker } from '@/types';
 
 interface ConcordanceProps {
     concordances: Concordance[];
-    speakers: Speaker[];
     searchTerm: string;
     caseSensitive: boolean;
 }
 
-const Concordance = ({ concordances, speakers, searchTerm, caseSensitive }: ConcordanceProps) => {
+const Concordance = ({ concordances, searchTerm, caseSensitive }: ConcordanceProps) => {
     const [visibleCount, setVisibleCount] = useState(10);
 
 

@@ -9,7 +9,7 @@ import search from "@/hooks/search";
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
   const [caseSensitive, setCaseSensitive] = useState(false);
-  const { concordances, statistics, speakers, loading, error } = search(searchTerm, caseSensitive);
+  const { concordances, statistics, loading, error } = search(searchTerm, caseSensitive);
 
   const handleSearch = (term, caseSensitive) => {
     setSearchTerm(term);
@@ -25,7 +25,7 @@ export default function Home() {
       {searchTerm && !loading && !error && (
         <div className="flex flex-col md:flex-row items-start w-full space-y-4 md:space-y-0 md:space-x-4 mt-4">
             <div className="flex-1 p-5 hover:border border-blue-500 rounded-lg border-opacity-80">
-            <Concordance concordances={concordances} speakers={speakers} searchTerm={searchTerm} caseSensitive={caseSensitive} />
+            <Concordance concordances={concordances} searchTerm={searchTerm} caseSensitive={caseSensitive} />
             </div>
             <div className="flex-1 p-5 hover:border border-blue-500 rounded-lg border-opacity-80">
             <Statistics statistics={statistics} />
