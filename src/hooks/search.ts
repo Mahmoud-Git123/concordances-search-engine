@@ -34,6 +34,9 @@ const Search = (searchTerm: string, caseSensitive: boolean) => {
             return matchFound;
           }).map((conversation: any) => ({
             snippet: conversation.text, 
+            gender: conversation.gender,
+            age: conversation.age,
+            timestamp: conversation.timestamp,
             // speakerId: `Speaker ${index + 1}`, 
           }));
 
