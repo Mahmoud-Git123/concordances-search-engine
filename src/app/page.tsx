@@ -4,12 +4,12 @@ import SearchBar from "@/components/SearchBar";
 import Concordance from "@/components/Concordances";
 import Statistics from "@/components/Statistics";
 import Visualization from "@/components/Visualisation";
-import search from "@/hooks/search";
+import Search from "@/hooks/search";
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
   const [caseSensitive, setCaseSensitive] = useState(false);
-  const { concordances, statistics, loading, error } = search(searchTerm, caseSensitive);
+  const { concordances, statistics, loading, error } = Search(searchTerm, caseSensitive);
 
   const handleSearch = (term, caseSensitive) => {
     setSearchTerm(term);

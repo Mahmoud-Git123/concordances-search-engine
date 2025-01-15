@@ -3,7 +3,7 @@ import { parseXML } from "@/lib/xmlParsing";
 import { Concordance, Statistics } from "@/types";
 
 //  creating the search custom hook which takes searchTerm and caseSensitive as arguments
-const search = (searchTerm: string, caseSensitive: boolean) => {
+const Search = (searchTerm: string, caseSensitive: boolean) => {
   const [concordances, setConcordances] = useState<Concordance[]>([]);
   const [statistics, setStatistics] = useState<Statistics | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -96,4 +96,4 @@ const search = (searchTerm: string, caseSensitive: boolean) => {
   return { concordances, statistics, loading, error };
 };
 
-export default search;
+export default Search;
