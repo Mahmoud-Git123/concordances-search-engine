@@ -2,27 +2,31 @@ import { useState, useEffect } from "react";
 import { parseXML } from "@/lib/xmlParsing";
 import { Concordance, Statistics } from "@/types";
 
-//  creating the search custom hook which takes searchTerm and caseSensitive as arguments
-const Search = (searchTerm: string, caseSensitive: boolean) => {
+//  creating the search custom hook which takes searchTerm, caseSensitive, and xmlData as arguments
+const Search = (searchTerm: string, caseSensitive: boolean, xmlData: string | null) => {
   const [concordances, setConcordances] = useState<Concordance[]>([]);
   const [statistics, setStatistics] = useState<Statistics | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  //   useEffect is used to fetch and process data when searchTerm or caseSensitive changes
+  //   useEffect is used to fetch and process data when searchTerm, caseSensitive, or xmlData changes
   useEffect(() => {
     const fetchData = async () => {
-
       setLoading(true);
       setError(null);
 
       try {
-        const xmlData = await fetch("/large_conversation.xml");
-        const text = await xmlData.text(); // converts the fteched data from xml to text
+        let text;
+        if (xmlData) {
+          text = xmlData;
+        } else {
+          const response = await fetch("/large_conversation.xml");
+          text = await response.text(); // converts the fetched data from xml to text
+        }
 
         const { conversations } = await parseXML(text); //  parsing the text in order to get the conversations using xmlParsing
 
-        // filters the conversations recieved from parsing the xml data based on the word searched and checking case sensitivity
+        // filters the conversations received from parsing the xml data based on the word searched and checking case sensitivity
         const filteredConcordances = conversations.filter((conversation: any) => {
             const text = conversation.text;
             let matchFound;
@@ -42,7 +46,7 @@ const Search = (searchTerm: string, caseSensitive: boolean) => {
 
         const stats = calculateStatistics(conversations, searchTerm, caseSensitive);
 
-        //  now that we have statistics and filitered text we can update states
+        //  now that we have statistics and filtered text we can update states
         setConcordances(filteredConcordances);
         setStatistics(stats);
       } catch (error) {
@@ -54,11 +58,10 @@ const Search = (searchTerm: string, caseSensitive: boolean) => {
 
     // fetch for data, ONLY when a search word is given
     if (searchTerm) fetchData();
-  }, [searchTerm, caseSensitive]);
+  }, [searchTerm, caseSensitive, xmlData]);
 
   const calculateStatistics = (conversations: any[], searchTerm: string, caseSensitive: boolean): Statistics => {
-
-    const stats: Statistics = { //creating and initalising the statistics object
+    const stats: Statistics = { //creating and initializing the statistics object
       totalSpeakers: 0,
       genderNumbers: { male: 0, female: 0 },
       ageNumbers: {},
@@ -81,12 +84,10 @@ const Search = (searchTerm: string, caseSensitive: boolean) => {
         stats.genderNumbers[conversation.gender] =
           (stats.genderNumbers[conversation.gender] || 0) + 1;
 
-      
         stats.ageNumbers[conversation.age] =
           (stats.ageNumbers[conversation.age] || 0) + 1;
       }
     });
-
 
     stats.totalSpeakers = Object.values(stats.genderNumbers).reduce(
       (total, count) => total + count,
